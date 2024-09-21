@@ -10,8 +10,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    name: Build
+  buildAndScan:
+    name: Build and Scan dotnet code
     runs-on: windows-latest
     permissions: read-all
     steps:
