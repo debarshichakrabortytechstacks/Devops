@@ -7,9 +7,11 @@ on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: [ "main" ]
-
   pull_request:
     branches: [ "main" ]
+  paths:
+        - 'applications/dotnet/**'
+
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -29,21 +31,6 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 17
-
-      # - name: Cache SonarQube packages
-      #   uses: actions/cache@v1
-      #   with:
-      #     path: ~\.sonar\cache
-      #     key: ${{ runner.os }}-sonar
-      #     restore-keys: ${{ runner.os }}-sonar
-
-      # - name: Cache SonarQube scanner
-      #   id: cache-sonar-scanner
-      #   uses: actions/cache@v1
-      #   with:
-      #     path: .\.sonar\scanner
-      #     key: ${{ runner.os }}-sonar-scanner
-      #     restore-keys: ${{ runner.os }}-sonar-scanner
 
       - name: Install SonarQube scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
