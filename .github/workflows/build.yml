@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: Dotnet CI Pipeline
 
 on:
   push:
@@ -7,17 +7,6 @@ on:
     paths:
       - 'applications/dotnet/**'
 
-# on:
-
-#   push:
-#     branches: [ "main" ]
-
-#   pull_request:
-#     branches: [ "main" ]
-#   paths:
-#     - 'applications/dotnet/**'
-
-# Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
@@ -27,7 +16,8 @@ jobs:
     permissions: read-all
     steps:
 
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0 
 
@@ -43,12 +33,12 @@ jobs:
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
 
-      - name: List all the files under the directory
+      - name: List all the files and folders cloned to Github Runner
         shell: powershell
         run: |
           dir
 
-      - name: Build and analyze
+      - name: Build and analyze the dotnet code using Sonarcube Scanner
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"GithubActions" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}"
