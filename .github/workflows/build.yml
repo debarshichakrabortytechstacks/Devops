@@ -45,21 +45,21 @@ jobs:
       #     key: ${{ runner.os }}-sonar-scanner
       #     restore-keys: ${{ runner.os }}-sonar-scanner
 
-      # - name: Install SonarQube scanner
-      #   if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-      #   shell: powershell
-      #   run: |
-      #     New-Item -Path .\.sonar\scanner -ItemType Directory
-      #     dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+      - name: Install SonarQube scanner
+        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        shell: powershell
+        run: |
+          New-Item -Path .\.sonar\scanner -ItemType Directory
+          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
 
-      - name: Build and analyze
+      - name: List all the files under the directory
         shell: powershell
         run: |
           dir
 
-      # - name: Build and analyze
-      #   shell: powershell
-      #   run: |
-      #     .\.sonar\scanner\dotnet-sonarscanner begin /k:"GithubActions" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}"
-      #     dotnet build debarshichakrabortytechstacks/Devops/applications/dotnet/SampleApp.sln
-      #     .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+      - name: Build and analyze
+        shell: powershell
+        run: |
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"GithubActions" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}"
+          dotnet build .\applications/dotnet/SampleApp.sln
+          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
