@@ -38,7 +38,7 @@ jobs:
         run: |
           dir
 
-      - name: Build and analyze the dotnet code using Sonarcube Scanner
+      - name: Build and analyze the dotnet code using Sonarcube Scanner [SAST Static application security testing]
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"GithubActions" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}"
